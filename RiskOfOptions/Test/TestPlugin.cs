@@ -5,7 +5,7 @@ using RiskOfOptions.Options;
 
 namespace RiskOfOptions.Test
 {
-    [BepInDependency(RiskOfOptions.PluginInfo.PLUGIN_GUID)]
+    [BepInDependency(MyPluginInfo.PLUGIN_GUID)]
     [BepInPlugin(GUID, NAME, VERSION)]
     internal sealed class TestPlugin : BaseUnityPlugin
     {

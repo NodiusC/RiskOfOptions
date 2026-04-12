@@ -13,7 +13,8 @@ using RiskOfOptions.Resources;
 
 namespace RiskOfOptions;
 
-[BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.bepis.r2api.language", BepInDependency.DependencyFlags.SoftDependency)] // Risk of Options doesn't need R2API.Language but should make sure it loads before this
 public sealed class RiskOfOptionsPlugin : BaseUnityPlugin
 {
     internal static ConfigEntry<bool>? seenNoMods;
