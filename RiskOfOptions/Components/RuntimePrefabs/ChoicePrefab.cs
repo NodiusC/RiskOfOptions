@@ -1,4 +1,5 @@
 ﻿using RiskOfOptions.Components.Options;
+using RiskOfOptions.Extensions.Unity;
 using RoR2;
 using RoR2.UI;
 using RoR2.UI.SkinControllers;
@@ -24,32 +25,32 @@ namespace RiskOfOptions.Components.RuntimePrefabs
 
             var carouselRect = ChoiceButton.transform.Find("CarouselRect");
             
-             Object.DestroyImmediate(carouselRect.GetComponent<ResolutionControl>()); // Removing this entirely since it seems to mostly be made for resolution stuff.
-             Object.DestroyImmediate(carouselRect.Find("RefreshRateDropdown").gameObject); // I only really need one Drop down element.
-             Object.DestroyImmediate(carouselRect.Find("ApplyButton").gameObject); // I think most use cases don't need an apply button. If I think otherwise later I can make this optional
-             Object.DestroyImmediate(ChoiceButton.GetComponent<SelectableDescriptionUpdater>());
-             Object.DestroyImmediate(ChoiceButton.GetComponent<PanelSkinController>());
-             Object.DestroyImmediate(ChoiceButton.GetComponent<Image>());
-             
-             Object.Instantiate(checkBox.transform.Find("BaseOutline").gameObject, ChoiceButton.transform);
-
-             GameObject dropDownHoverOutline = Object.Instantiate(checkBox.transform.Find("HoverOutline").gameObject, ChoiceButton.transform);
-             ChoiceButton.SetActive(false);
+            Object.DestroyImmediate(carouselRect.GetComponent<ResolutionControl>()); // Removing this entirely since it seems to mostly be made for resolution stuff.
+            Object.DestroyImmediate(carouselRect.Find("RefreshRateDropdown").gameObject); // I only really need one Drop down element.
+            Object.DestroyImmediate(carouselRect.Find("ApplyButton").gameObject); // I think most use cases don't need an apply button. If I think otherwise later I can make this optional
+            Object.DestroyImmediate(ChoiceButton.GetComponent<SelectableDescriptionUpdater>());
+            Object.DestroyImmediate(ChoiceButton.GetComponent<PanelSkinController>());
+            Object.DestroyImmediate(ChoiceButton.GetComponent<Image>());
             
-             HGButton button = ChoiceButton.AddComponent(checkBox.GetComponent<HGButton>());
-             button.imageOnHover = dropDownHoverOutline.GetComponent<Image>();
+            Object.Instantiate(checkBox.transform.Find("BaseOutline").gameObject, ChoiceButton.transform);
 
-             ChoiceButton.AddComponent(checkBox.GetComponent<ButtonSkinController>());
-             
-             var dropDownImage = ChoiceButton.AddComponent(checkBox.GetComponent<Image>());
-             var dropDownTargetGraphic = dropDownImage;
-            
-             button.targetGraphic = dropDownTargetGraphic;
-             button.navigation = new Navigation();
-             button.onClick.RemoveAllListeners();
+            GameObject dropDownHoverOutline = Object.Instantiate(checkBox.transform.Find("HoverOutline").gameObject, ChoiceButton.transform);
+            ChoiceButton.SetActive(false);
 
-             Transform ChoiceButtonLabel = ChoiceButton.transform.Find("Text, Name");
-             ChoiceButton.AddComponent<DropDownController>().nameLabel = ChoiceButtonLabel.GetComponent<LanguageTextMeshController>();
+            HGButton button = ChoiceButton.AddComponentCopy(checkBox.GetComponent<HGButton>());
+            button.imageOnHover = dropDownHoverOutline.GetComponent<Image>();
+
+            ChoiceButton.AddComponentCopy(checkBox.GetComponent<ButtonSkinController>());
+
+            var dropDownImage = ChoiceButton.AddComponentCopy(checkBox.GetComponent<Image>());
+            var dropDownTargetGraphic = dropDownImage;
+
+            button.targetGraphic = dropDownTargetGraphic;
+            button.navigation = new Navigation();
+            button.onClick.RemoveAllListeners();
+
+            Transform ChoiceButtonLabel = ChoiceButton.transform.Find("Text, Name");
+            ChoiceButton.AddComponent<DropDownController>().nameLabel = ChoiceButtonLabel.GetComponent<LanguageTextMeshController>();
 
             // todo: fix this in the Unity prefab and update the asset bundle?
             // values obtained from cross-referencing other option prefabs using Unity Explorer
@@ -111,13 +112,13 @@ namespace RiskOfOptions.Components.RuntimePrefabs
              Object.DestroyImmediate(dropDownTemplate.GetComponent<OnEnableEvent>());
              Object.DestroyImmediate(dropDownTemplate.GetComponent<UIJuice>());
 
-             var templateCanvas = dropDownTemplate.GetOrAddComponent<Canvas>();
+             var templateCanvas = GameObjectExtensions.GetOrAddComponent<Canvas>(dropDownTemplate);
 
              templateCanvas.overrideSorting = true;
              templateCanvas.sortingOrder = 30000;
 
-             dropDownTemplate.GetOrAddComponent<GraphicRaycaster>();
-             var dropDownCanvasGroup = dropDownTemplate.GetOrAddComponent<CanvasGroup>();
+             GameObjectExtensions.GetOrAddComponent<GraphicRaycaster>(dropDownTemplate);
+             var dropDownCanvasGroup = GameObjectExtensions.GetOrAddComponent<CanvasGroup>(dropDownTemplate);
              dropDownCanvasGroup.alpha = 1f;
 
              var templateRectTransform = dropDownTemplate.GetComponent<RectTransform>();

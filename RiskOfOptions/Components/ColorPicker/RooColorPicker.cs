@@ -1,4 +1,6 @@
 ﻿using System;
+using RiskOfOptions.Extensions.Numeric;
+using RiskOfOptions.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -19,17 +21,14 @@ namespace RiskOfOptions.Components.ColorPicker
             _rectTransform = GetComponent<RectTransform>();
         }
 
-        public void SetHue(float hue)
-        {
-            background.color = Color.HSVToRGB(hue.Remap(0, 6.28f, 0, 1), 1, 1);
-        }
+        public void SetHue(float hue) => background.color = Color.HSVToRGB(hue.Rescale(0, MathUtils.Tau, 0, 1), 1, 1);
 
         public void SetValues(float saturation, float value)
         {
             var rect = _rectTransform.rect;
 
-            var x = saturation.Remap(0, 1, -(rect.width / 2), rect.width / 2);
-            var y = value.Remap(0, 1, -(rect.height / 2), rect.height / 2);
+            var x = saturation.Rescale(0, 1, -(rect.width / 2), rect.width / 2);
+            var y = value.Rescale(0, 1, -(rect.height / 2), rect.height / 2);
             
             ClampHandle(new Vector2(x, y));
         }
@@ -61,8 +60,8 @@ namespace RiskOfOptions.Components.ColorPicker
             var rect = _rectTransform.rect;
             var values = pos - rect.center;
 
-            var saturation = values.x.Remap(-(rect.width / 2), rect.width / 2, 0, 1);
-            var value = values.y.Remap(-(rect.height / 2), rect.height / 2, 0, 1);
+            var saturation = values.x.Rescale(-(rect.width / 2), rect.width / 2, 0, 1);
+            var value = values.y.Rescale(-(rect.height / 2), rect.height / 2, 0, 1);
 
             onValueChanged?.Invoke(saturation, value);
         }

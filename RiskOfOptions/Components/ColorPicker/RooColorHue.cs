@@ -1,4 +1,5 @@
 ﻿using System;
+using RiskOfOptions.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -69,7 +70,7 @@ namespace RiskOfOptions.Components.Options
         }
         
         private static float GetMouseAngle(Vector2 mousePos, Vector2 center) {
-            return (Mathf.Atan2(mousePos.y - center.y, mousePos.x - center.x) + Mathf.PI * 2) % (Mathf.PI * 2);
+            return (Mathf.Atan2(mousePos.y - center.y, mousePos.x - center.x) + MathUtils.Tau) % MathUtils.Tau;
         }
 
         [Serializable]

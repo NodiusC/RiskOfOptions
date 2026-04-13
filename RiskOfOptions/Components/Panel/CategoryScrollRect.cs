@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RiskOfOptions.Extensions.Unity;
 using RoR2;
 using RoR2.UI;
 using RoR2.UI.SkinControllers;
@@ -240,7 +241,7 @@ namespace RiskOfOptions.Components.Panel
             
             //var newPos = indicatorTransform.position;
 
-            while (!ExtensionMethods.CloseEnough(image.color, Color.white) )
+            while (!image.color.IsApprox(Color.white))
             {
                 //outlineTransform.position = Vector2.Lerp(outlineTransform.position, newPos, 10f * Time.unscaledDeltaTime);
                 image.color = Color.Lerp(image.color, Color.white, 10f * Time.unscaledDeltaTime);
@@ -254,7 +255,7 @@ namespace RiskOfOptions.Components.Panel
         private IEnumerator IndicatorColor(int ignore)
         {
             Color[] colors = new Color[_indicators.Length];
-            while (!ExtensionMethods.CloseEnough(colors, InactiveColor))
+            while (!colors.AllApprox(InactiveColor))
             {
                 for (int i = 0; i < _indicators.Length; i++)
                 {

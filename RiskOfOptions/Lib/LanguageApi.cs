@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
+using RiskOfOptions.Utilities;
 using RoR2;
 
 namespace RiskOfOptions.Lib
@@ -17,7 +18,7 @@ namespace RiskOfOptions.Lib
         internal static void Init()
         {
             var destMethod = typeof(LanguageApi).GetMethod(nameof(GetLocalizedStringByToken), BindingFlags.NonPublic | BindingFlags.Static);
-            _languageHook = HookHelper.NewHook<Language>("GetLocalizedStringByToken", destMethod);
+            _languageHook = HookFactory.Create<Language>("GetLocalizedStringByToken", destMethod);
         }
 
         internal static void Add(string token, string entry)

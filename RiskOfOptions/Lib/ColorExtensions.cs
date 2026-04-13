@@ -1,101 +1,66 @@
-﻿using UnityEngine;
+﻿using System;
+using System.ComponentModel;
+using RiskOfOptions.Utilities;
+using UnityEngine;
 
-namespace RiskOfOptions.Lib
+namespace RiskOfOptions.Lib;
+
+/// <summary>
+/// Provides extension methods for the <see cref="Color"/> structure.
+/// </summary>
+[Obsolete($"This extension is deprecated and will be removed in a future version. All functionalities have been moved to {nameof(Utilities)} and {nameof(Extensions.Unity)} namespaces.")]
+[EditorBrowsable(EditorBrowsableState.Never)]
+public static class ColorExtensions
 {
-    public static class ColorExtensions
-    {
-        private const float Scale = 255f;
-        
-        public static Color FromRGBHex(this Color orig, int hex)
-        {
-            const int rMask = 0xFF0000;
-            const int gMask = 0x00FF00;
-            const int bMask = 0x0000FF;
+    /// <summary>
+    /// The maximum value of an 8-bit color channel (255). 
+    /// Used to scale normalized [0, 1] color components to standard byte values.
+    /// </summary>
+    [Obsolete($"This field is deprecated and will be removed in a future version. Use {nameof(ColorUtils.ByteMax)} instead.")]
+    private const float Scale = 255f;
 
-            int r = (hex & rMask) >> 16;
-            int g = (hex & gMask) >> 8;
-            int b = hex & bMask;
+    /// <summary>
+    /// Creates a Unity <see cref="Color"/> from a 24-bit integer hex value.
+    /// </summary>
+    /// <param name="hex">The RGB hex value represented as an integer (e.g. 0xFFFFFF).</param>
+    /// <returns>A <see cref="Color"/> object with components scaled by <see cref="ByteMax"/>.</returns>
+    [Obsolete($"This method is deprecated and will be removed in a future version. Use {nameof(ColorUtils.FromRGBHex)} instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static Color FromRGBHex(this Color orig, int hex) => ColorUtils.FromRGBHex(hex);
 
-            return new Color(r / Scale, g / Scale, b / Scale, orig.a);
-        }
+    /// <summary>
+    /// Converts the color to a 24-bit <see langword="int"/> RGB hexadecimal representation (0xRRGGBB).
+    /// </summary>
+    /// <param name="color">The source RGB color to convert.</param>
+    /// <returns>A 24-bit <see langword="int"/> where the red, green, and blue channels occupy the high, middle, and low bytes respectively.</returns>
+    /// <remarks>
+    /// This method ignores the alpha channel. To include transparency, 
+    /// use a 32-bit ARGB conversion instead.
+    /// </remarks>
+    [Obsolete($"This method is deprecated and will be removed in a future version. Use {nameof(Extensions.Unity.ColorExtensions.ToRGBHex)} instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static int ToRGBHex(this Color orig) => Extensions.Unity.ColorExtensions.ToRGBHex(orig);
 
-        public static int ToRGBHex(this Color orig)
-        {
-            int r = (int)(orig.r * Scale) << 16;
-            int g = (int)(orig.g * Scale) << 8;
-            int b = (int)(orig.b * Scale);
+    /// <summary>
+    /// Creates a Unity <see cref="Color"/> from HSV values using a radian-based hue.
+    /// </summary>
+    /// <param name="hue">The hue component expressed in radians (0 to 2π).</param>
+    /// <param name="sat">The normalized saturation component (0 to 1).</param>
+    /// <param name="val">The normalized value (brightness) component (0 to 1).</param>
+    /// <returns>A <see cref="Color"/> converted from HSV to RGB space.</returns>
+    [Obsolete($"This method is deprecated and will be removed in a future version. Use {nameof(ColorUtils.FromHSV)} instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal static Color ColorFromHSV(float hue, float sat, float val) => ColorUtils.FromHSV(hue, sat, val);
 
-            return r | g | b;
-        }
-        
-        internal static Color ColorFromHSV(float hue, float sat, float val) {           
-            float chroma = val * sat;
-            float piStep = Mathf.PI / 3f;
-            float intermediate = chroma * (1 - Mathf.Abs((float)(hue / piStep % 2.0 - 1)));
-            float shift = val - chroma;
-                        
-            if (hue < 1 * piStep)
-                return new Color(shift + chroma, shift + intermediate, shift + 0, 1);
-            if (hue < 2 * piStep)
-                return new Color(shift + intermediate, shift + chroma, shift + 0, 1);
-            if (hue < 3 * piStep)
-                return new Color(shift + 0, shift + chroma, shift + intermediate, 1);
-            if (hue < 4 * piStep)
-                return new Color(shift + 0, shift + intermediate, shift + chroma, 1);
-            if (hue < 5 * piStep)
-                return new Color(shift + intermediate, shift + 0, shift + chroma, 1);
-            return new Color(shift + chroma, shift + 0, shift + intermediate, 1);
-        }
-        
-        /// <param name="orig">Color to perform this on</param>
-        /// <param name="inHue">Range 0 - 6.28</param>
-        /// <param name="outHue">Range 0 - 6.28</param>
-        /// <param name="saturation">Range 0 - 1</param>
-        /// <param name="value">Range 0 - 1</param>
-        internal static void ToHSV(this Color orig, float inHue, out float outHue, out float saturation, out float value)
-        {
-            outHue = 0;
-            
-            float min = Mathf.Min(orig.r, Mathf.Min(orig.g, orig.b));
-            float max = Mathf.Max(orig.r, Mathf.Max(orig.g, orig.b));
-            float delta = max - min;
-
-            value = max;
-
-            if (delta == 0)
-            {
-                saturation = 0;
-                outHue = inHue.Remap(0, 6.28f, 0, 1);
-            }
-            else
-            {
-                saturation = delta / max;
-
-                var rDelta = ((max - orig.r) / 6 + delta / 2) / delta;
-                var gDelta = ((max - orig.g) / 6 + delta / 2) / delta;
-                var bDelta = ((max - orig.b) / 6 + delta / 2) / delta;
-
-                if (orig.r == delta)
-                {
-                    outHue = bDelta - gDelta;
-                }
-                else if (orig.g == delta)
-                {
-                    outHue = 1 / 3f + rDelta - bDelta;
-                }
-                else if (orig.b == delta)
-                {
-                    outHue = 2 / 3f + gDelta - rDelta;
-                }
-
-                if (outHue < 0)
-                    outHue += 1;
-
-                if (outHue > 1)
-                    outHue -= 1;
-            }
-
-            outHue = outHue.Remap(0, 1, 0, 6.28f);
-        }
-    }
+    /// <summary>
+    /// Converts an RGB color to the HSV (Hue, Saturation, Value) color space using radians for the hue component.
+    /// </summary>
+    /// <param name="orig">The source RGB color to convert.</param>
+    /// <param name="inHue">The hue value (in radians) to return if the color is achromatic (saturation is zero).</param>
+    /// <param name="outHue">When this method returns, contains the hue component of the color in radians [0, 2π].</param>
+    /// <param name="saturation">When this method returns, contains the saturation component of the color [0, 1].</param>
+    /// <param name="value">When this method returns, contains the brightness value component of the color [0, 1].</param>
+    [Obsolete($"This method is deprecated and will be removed in a future version. Use {nameof(Extensions.Unity.ColorExtensions.ToHSVRadian)} instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal static void ToHSV(this Color orig, float inHue, out float outHue, out float saturation, out float value) => Extensions.Unity.ColorExtensions.ToHSVRadian(orig, inHue, out outHue, out saturation, out value);
 }

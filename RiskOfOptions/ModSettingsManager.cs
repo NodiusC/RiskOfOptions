@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 using RiskOfOptions.Containers;
+using RiskOfOptions.Extensions.BepInEx;
 using RiskOfOptions.Lib;
 using RiskOfOptions.Options;
 using RoR2;
@@ -55,9 +56,8 @@ namespace RiskOfOptions
 
         public static void SetModDescription(string description)
         {
-            ModMetaData modMetaData = Assembly.GetCallingAssembly().GetModMetaData();
-            
-            SetModDescription(description, modMetaData.Guid, modMetaData.Name);
+            if (Assembly.GetCallingAssembly().TryGetPlugin(out PluginMetadata metadata))
+                SetModDescription(description, metadata.GUID, metadata.Name);
         }
 
         public static void SetModDescription(string description, string modGuid, string modName)
@@ -69,9 +69,8 @@ namespace RiskOfOptions
         
         public static void SetModDescriptionToken(string descriptionToken)
         {
-            ModMetaData modMetaData = Assembly.GetCallingAssembly().GetModMetaData();
-            
-            SetModDescriptionToken(descriptionToken, modMetaData.Guid, modMetaData.Name);
+            if (Assembly.GetCallingAssembly().TryGetPlugin(out PluginMetadata metadata))
+                SetModDescriptionToken(descriptionToken, metadata.GUID, metadata.Name);
         }
 
         public static void SetModDescriptionToken(string descriptionToken, string modGuid, string modName)
@@ -83,9 +82,8 @@ namespace RiskOfOptions
 
         public static void SetModIcon(Sprite iconSprite)
         {
-            ModMetaData modMetaData = Assembly.GetCallingAssembly().GetModMetaData();
-
-            SetModIcon(iconSprite, modMetaData.Guid, modMetaData.Name);
+            if (Assembly.GetCallingAssembly().TryGetPlugin(out PluginMetadata metadata))
+                SetModIcon(iconSprite, metadata.GUID, metadata.Name);
         }
         
         public static void SetModIcon(Sprite iconSprite, string modGuid, string modName)
@@ -97,9 +95,8 @@ namespace RiskOfOptions
         
         public static void SetModIcon(GameObject iconPrefab)
         {
-            ModMetaData modMetaData = Assembly.GetCallingAssembly().GetModMetaData();
-
-            SetModIcon(iconPrefab, modMetaData.Guid, modMetaData.Name);
+            if (Assembly.GetCallingAssembly().TryGetPlugin(out PluginMetadata metadata))
+                SetModIcon(iconPrefab, metadata.GUID, metadata.Name);
         }
         
         public static void SetModIcon(GameObject iconPrefab, string modGuid, string modName)
@@ -111,9 +108,8 @@ namespace RiskOfOptions
 
         public static void AddOption(BaseOption option)
         {
-            ModMetaData modMetaData = Assembly.GetCallingAssembly().GetModMetaData();
-            
-            AddOption(option, modMetaData.Guid, modMetaData.Name);
+            if (Assembly.GetCallingAssembly().TryGetPlugin(out PluginMetadata metadata))
+                AddOption(option, metadata.GUID, metadata.Name);
         }
 
         public static void AddOption(BaseOption option, string modGuid, string modName)

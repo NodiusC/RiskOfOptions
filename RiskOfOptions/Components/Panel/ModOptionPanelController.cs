@@ -5,6 +5,7 @@ using System.Linq;
 using RiskOfOptions.Components.Options;
 using RiskOfOptions.Components.RuntimePrefabs;
 using RiskOfOptions.Containers;
+using RiskOfOptions.Extensions.Unity;
 using RiskOfOptions.Options;
 using RiskOfOptions.Resources;
 using RoR2.UI;
@@ -515,9 +516,8 @@ namespace RiskOfOptions.Components.Panel
 
                 //warningTransform.anchorMax = Vector2.Lerp(warningTransform.anchorMax, newWarningPos, animSpeed * Time.unscaledDeltaTime);
 
-                modListTransform.anchorMin = ExtensionMethods.SmoothStep(modListTransform.anchorMin, newModListPos, (animSpeed * 5.25f) * Time.unscaledDeltaTime);
-
-                warningTransform.anchorMax = ExtensionMethods.SmoothStep(warningTransform.anchorMax, newWarningPos, (animSpeed * 5.25f) * Time.unscaledDeltaTime);
+                modListTransform.anchorMin = modListTransform.anchorMin.SmoothStepTo(newModListPos, animSpeed * 5.25f * Time.unscaledDeltaTime);
+                warningTransform.anchorMax = warningTransform.anchorMax.SmoothStepTo(newWarningPos, animSpeed * 5.25f * Time.unscaledDeltaTime);
 
                 float angle = Mathf.Clamp(Mathf.Lerp(angleIncrement * Time.unscaledDeltaTime, max, 1f * Time.unscaledDeltaTime), 90 * Time.unscaledDeltaTime, Math.Abs(maxAngleRotation));
 
@@ -538,10 +538,10 @@ namespace RiskOfOptions.Components.Panel
                         break;
                 }
 
-                if (ExtensionMethods.CloseEnough(modListTransform.anchorMin, newModListPos) &&
-                    ExtensionMethods.CloseEnough(warningTransform.anchorMax, newWarningPos) &&
-                    ExtensionMethods.CloseEnough(warningText.color, textColor) &&
-                    ExtensionMethods.CloseEnough(restartIcon.color, textColor))
+                if (modListTransform.anchorMin.IsApprox(newModListPos) &&
+                    warningTransform.anchorMax.IsApprox(newWarningPos) &&
+                    warningText.color.IsApprox(textColor) &&
+                    restartIcon.color.IsApprox(textColor))
                 {
                     modListTransform.anchorMin = newModListPos;
                     warningTransform.anchorMax = newWarningPos;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 using RiskOfOptions.Components.Misc;
+using RiskOfOptions.Utilities;
 using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -49,7 +50,7 @@ internal static class CursorController
     private static void InitHooks()
     {
         var destMethod = typeof(CursorController).GetMethod(nameof(SetCursorOverride), BindingFlags.NonPublic | BindingFlags.Static);
-        _controllerHook = HookHelper.NewHook<CursorIndicatorController>(nameof(CursorIndicatorController.SetCursor), destMethod);
+        _controllerHook = HookFactory.Create<CursorIndicatorController>(nameof(CursorIndicatorController.SetCursor), destMethod);
     }
 
     private static void LoadCursors()

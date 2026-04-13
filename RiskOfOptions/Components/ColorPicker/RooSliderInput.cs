@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using RiskOfOptions.Extensions.Numeric;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,7 +41,7 @@ namespace RiskOfOptions.Components.ColorPicker
 
         public void SetUnmappedValue(float value)
         {
-            Value = value.Remap(sliderMin, sliderMax, valueMin, valueMax);
+            Value = value.Rescale(sliderMin, sliderMax, valueMin, valueMax);
         }
 
         public void Awake()
@@ -55,7 +56,7 @@ namespace RiskOfOptions.Components.ColorPicker
 
         private void UpdateControls()
         {
-            int remappedVal = (int)Value.Remap(valueMin, valueMax, sliderMin, sliderMax);
+            int remappedVal = (int)Value.Rescale(valueMin, valueMax, sliderMin, sliderMax);
             
             slider.value = remappedVal;
             inputField.text = string.Format(CultureInfo.InvariantCulture, formatString, remappedVal);
@@ -63,7 +64,7 @@ namespace RiskOfOptions.Components.ColorPicker
 
         private void SliderChanged(float newValue)
         {
-            Value = newValue.Remap(sliderMin, sliderMax, valueMin, valueMax);
+            Value = newValue.Rescale(sliderMin, sliderMax, valueMin, valueMax);
         }
 
         private void OnTextEdited(string newText)
@@ -72,7 +73,7 @@ namespace RiskOfOptions.Components.ColorPicker
             {
                 num = Mathf.Clamp(num, slider.minValue, slider.maxValue);
 
-                Value = num.Remap(sliderMin, sliderMax, valueMin, valueMax);
+                Value = num.Rescale(sliderMin, sliderMax, valueMin, valueMax);
             }
             else
             {

@@ -2,8 +2,10 @@
 using System.Globalization;
 using RiskOfOptions.Components.ColorPicker;
 using RiskOfOptions.Components.Options;
+using RiskOfOptions.Extensions.Numeric;
 using RiskOfOptions.Lib;
 using RiskOfOptions.Resources;
+using RiskOfOptions.Utilities;
 using RoR2;
 using TMPro;
 using UnityEngine;
@@ -46,7 +48,7 @@ namespace RiskOfOptions.Utils
             _color = newColor;
             
             Color.RGBToHSV(_color, out var hue, out _saturation, out _value);
-            _hue = hue.Remap(0, 1, 0, 6.28f);
+            _hue = hue.Rescale(0, 1, 0, 6.28f);
             
             _hexValue = _color.ToRGBHex();
             UpdateControls();
@@ -74,13 +76,13 @@ namespace RiskOfOptions.Utils
             if (int.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int hex))
                 _hexValue = hex;
             
-            SetColor(_color.FromRGBHex(_hexValue));
+            SetColor(ColorUtils.FromRGBHex(_hexValue));
         }
 
         private void UpdateColorFromHSV()
         {
-            //var color = Color.HSVToRGB(_hue.Remap(0, 6.28f, 0, 1), _saturation, _value);
-            var color = ColorExtensions.ColorFromHSV(_hue, _saturation, _value);
+            //var color = Color.HSVToRGB(_hue.Rescale(0, 6.28f, 0, 1), _saturation, _value);
+            var color = ColorUtils.FromHSV(_hue, _saturation, _value);
             color.a = _color.a;
             _color = color;
             
