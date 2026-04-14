@@ -1,10 +1,9 @@
-﻿using RoR2.UI;
-using System;
+﻿using System;
 using RiskOfOptions.Components.Panel;
 using RiskOfOptions.Components.RuntimePrefabs;
-using RiskOfOptions.Lib;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using RiskOfOptions.API.Localization;
 
 namespace RiskOfOptions
 {
@@ -21,7 +20,7 @@ namespace RiskOfOptions
             settingsPanelTitle.AddComponent<ModOptionPanelController>();
             settingsPanel.AddComponent<ModOptionPanelController>();
             
-            LanguageApi.Add(LanguageTokens.HeaderToken, "MOD OPTIONS");
+            Localizer.Add(LanguageTokens.HeaderToken, "MOD OPTIONS");
             
             RuntimePrefabManager.Register<ModOptionsPanelPrefab>();
             RuntimePrefabManager.Register<CheckBoxPrefab>();

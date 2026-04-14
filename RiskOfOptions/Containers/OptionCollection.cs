@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.Options;
 using UnityEngine;
 
@@ -35,12 +35,12 @@ namespace RiskOfOptions.Containers
             ModName = modName;
             ModGuid = modGuid;
             
-            LanguageApi.Add(NameToken, ModName);
+            Localizer.Add(NameToken, ModName);
         }
 
         internal void SetDescriptionText(string descriptionText)
         {
-            LanguageApi.Add(DescriptionToken, descriptionText);
+            Localizer.Add(DescriptionToken, descriptionText);
         }
 
         internal void AddOption(ref BaseOption option)

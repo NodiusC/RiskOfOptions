@@ -1,4 +1,4 @@
-﻿using RiskOfOptions.Lib;
+﻿using RiskOfOptions.API.Localization;
 using RiskOfOptions.OptionConfigs;
 using RoR2.UI;
 using TMPro;
@@ -211,12 +211,17 @@ namespace RiskOfOptions.Components.Options
 
         private void HookLanguage()
         {
-            LanguageApi.AddDelegate(_previewToken, GetString);
+            Localizer.AddProvider(_previewToken, (out localized) =>
+                {
+                    localized = GetString();
+                    return true;
+                }
+            );
         }
 
         private void UnHookLanguage()
         {
-            LanguageApi.RemoveDelegate(_previewToken);
+            Localizer.RemoveProvider(_previewToken);
         }
 
         private string GetString()

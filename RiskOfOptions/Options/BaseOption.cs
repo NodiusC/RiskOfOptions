@@ -1,6 +1,6 @@
 using System;
 using BepInEx.Configuration;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.OptionConfigs;
 using RoR2;
 using UnityEngine;
@@ -56,8 +56,8 @@ namespace RiskOfOptions.Options
 
         internal virtual void RegisterTokens()
         {
-            LanguageApi.Add(GetNameToken(), Name);
-            LanguageApi.Add(GetDescriptionToken(), Description);
+            Localizer.Add(GetNameToken(), Name);
+            Localizer.Add(GetDescriptionToken(), Description);
         }
         
         public string GetNameToken()

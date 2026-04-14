@@ -1,4 +1,4 @@
-﻿using RiskOfOptions.Lib;
+﻿using RiskOfOptions.API.Localization;
 
 namespace RiskOfOptions
 {
@@ -26,18 +26,18 @@ namespace RiskOfOptions
 
         public static void Register()
         {
-            LanguageApi.Add(OptionRebindDialogTitle, "Rebind Control...");
-            LanguageApi.Add(LeftPageButton, "<");
-            LanguageApi.Add(RightPageButton, ">");
-            LanguageApi.Add(NoModsHeaderToken, "No Supported Mods Installed");
-            LanguageApi.Add(NoModsDescriptionToken, "No mods implementing RiskOfOptions found.\n" +
-                                                    "This mod doesn't do anything if you don't have any mods installed that supports RiskOfOptions.\n" +
-                                                    "This won't show again.");
-            LanguageApi.Add(ModsHeaderToken, "You can configure your mods in game!");
-            LanguageApi.Add(ModsDescriptionToken, "Mods with support for RiskOfOptions found!\n" +
-                                                  "You can configure them in the \"MOD OPTIONS\" panel.\n" +
-                                                  "This won't show again");
-            LanguageApi.Add(DialogButtonToken, "Ok");
+            Localizer.Add(OptionRebindDialogTitle, "Rebind Control...");
+            Localizer.Add(LeftPageButton, "<");
+            Localizer.Add(RightPageButton, ">");
+            Localizer.Add(NoModsHeaderToken, "No Supported Mods Installed");
+            Localizer.Add(NoModsDescriptionToken, "No mods implementing RiskOfOptions found.\n" +
+                                                "This mod doesn't do anything if you don't have any mods installed that supports RiskOfOptions.\n" +
+                                                "This won't show again.");
+            Localizer.Add(ModsHeaderToken, "You can configure your mods in game!");
+            Localizer.Add(ModsDescriptionToken, "Mods with support for RiskOfOptions found!\n" +
+                                                "You can configure them in the \"MOD OPTIONS\" panel.\n" +
+                                                "This won't show again");
+            Localizer.Add(DialogButtonToken, "Ok");
         }
     }
 }

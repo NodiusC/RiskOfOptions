@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.Options;
 
 namespace RiskOfOptions.Containers
@@ -32,7 +32,7 @@ namespace RiskOfOptions.Containers
             ModGuid = modGuid;
             _customNameToken = string.Empty;
             
-            LanguageApi.Add(NameToken, name);
+            Localizer.Add(NameToken, name);
         }
 
         internal void AddOption(ref BaseOption option)

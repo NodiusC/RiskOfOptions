@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx.Configuration;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RoR2.UI;
 using UnityEngine;
 using RoR2Application = RoR2.RoR2Application;
@@ -31,7 +31,12 @@ namespace RiskOfOptions.Utils
             ModSettingsManager.disablePause = true;
             
             _dialogBox = SimpleDialogBox.Create(_mpEventSystem);
-            LanguageApi.AddDelegate(LanguageTokens.OptionRebindDialogDescription, ControlRebindingHook);
+            Localizer.AddProvider(LanguageTokens.OptionRebindDialogDescription, (out localized) =>
+                {
+                    localized = ControlRebindingHook();
+                    return true;
+                }
+            );
         }
 
         public void StopListening()
@@ -42,7 +47,7 @@ namespace RiskOfOptions.Utils
                 DestroyImmediate(_dialogBox.rootObject);
                 _dialogBox = null;
             }
-            LanguageApi.RemoveDelegate(LanguageTokens.OptionRebindDialogDescription);
+            Localizer.RemoveProvider(LanguageTokens.OptionRebindDialogDescription);
 
             RoR2Application.unscaledTimeTimers.CreateTimer(0.3f, Finish);
             Destroy(gameObject, 0.5f);

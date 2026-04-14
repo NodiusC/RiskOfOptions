@@ -1,6 +1,6 @@
 ﻿using BepInEx.Configuration;
 using RiskOfOptions.Components.Options;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,7 +29,7 @@ namespace RiskOfOptions.Options
         {
             base.RegisterTokens();
             
-            LanguageApi.Add(GetButtonLabelToken(), config.ButtonText);
+            Localizer.Add(GetButtonLabelToken(), config.ButtonText);
         }
 
         public string GetButtonLabelToken()

@@ -1,7 +1,7 @@
 ﻿using System;
 using BepInEx.Configuration;
 using RiskOfOptions.Components.Options;
-using RiskOfOptions.Lib;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.OptionConfigs;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -53,7 +53,7 @@ namespace RiskOfOptions.Options
 
                 _nameTokens[i] = token;
                 
-                LanguageApi.Add(token, names[i]);
+                Localizer.Add(token, names[i]);
             }
         }
 

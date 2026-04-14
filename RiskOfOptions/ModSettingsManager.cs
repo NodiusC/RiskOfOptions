@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 using RiskOfOptions.Containers;
+using RiskOfOptions.API.Localization;
 using RiskOfOptions.Extensions.BepInEx;
-using RiskOfOptions.Lib;
 using RiskOfOptions.Options;
 using RoR2;
 using UnityEngine;
 
-using static RiskOfOptions.ExtensionMethods;
 using ConCommandArgs = RoR2.ConCommandArgs;
 #pragma warning disable 618
 
@@ -31,7 +30,7 @@ namespace RiskOfOptions
 
         internal static void Init()
         {
-            LanguageApi.Init();
+            Localizer.Initialize();
             
             Resources.Assets.LoadAssets();
             Resources.Prefabs.Init();
