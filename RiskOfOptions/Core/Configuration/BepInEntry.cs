@@ -3,6 +3,8 @@ using System.IO;
 using BepInEx.Configuration;
 using RiskOfOptions.API.Configuration;
 
+using static RiskOfOptions.Utilities.Ensure;
+
 namespace RiskOfOptions.Core.Configuration;
 
 /// <summary>
@@ -22,8 +24,8 @@ internal class BepInEntry<T> : Entry<T>, IEquatable<BepInEntry<T>>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="config"/> or <paramref name="entry"/> is null.</exception>
     internal BepInEntry(BepInConfig config, ConfigEntry<T> entry)
     {
-        ConfigFile  = config ?? throw new ArgumentNullException(nameof(config));
-        Content = entry  ?? throw new ArgumentNullException(nameof(entry));
+        ConfigFile = NotNull(config);
+        Content    = NotNull(entry);
     }
 
     /// <inheritdoc/>

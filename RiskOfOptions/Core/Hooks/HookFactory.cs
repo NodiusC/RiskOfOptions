@@ -2,6 +2,8 @@ using System;
 using System.Reflection;
 using MonoMod.RuntimeDetour;
 
+using static RiskOfOptions.Utilities.Ensure;
+
 namespace RiskOfOptions.Core.Hooks;
 
 /// <summary>
@@ -50,13 +52,7 @@ public static class HookFactory
     /// <param name="detour">The method that will redirect the original call.</param>
     /// <returns>A new <see cref="Hook"/> instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either <paramref name="target"/> or <paramref name="detour"/> is null.</exception>
-    public static Hook Create(MethodBase target, MethodInfo detour)
-    {
-        if (target == null) throw new ArgumentNullException(nameof(target));
-        if (detour == null) throw new ArgumentNullException(nameof(detour));
-
-        return new Hook(target, detour);
-    }
+    public static Hook Create(MethodBase target, MethodInfo detour) => new(NotNull(target), NotNull(detour));
 
     /// <summary>
     /// Creates a new hook by resolving the target method via name and type metadata.
@@ -153,14 +149,8 @@ public static class HookFactory
     /// <param name="instance">The object instance on which the detour method is invoked.</param>
     /// <returns>A new <see cref="Hook"/> instance.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="target"/>, <paramref name="detour"/>, or <paramref name="instance"/> is null.</exception>
-    public static Hook Create<TDetour>(MethodBase target, MethodInfo detour, TDetour instance) where TDetour : class
-    {
-        if (instance == null) throw new ArgumentNullException(nameof(instance));
-        if (target == null) throw new ArgumentNullException(nameof(target));
-        if (detour == null) throw new ArgumentNullException(nameof(detour));
-
-        return new(target, detour, instance);
-    }
+    public static Hook Create<TDetour>(MethodBase target, MethodInfo detour, TDetour instance)
+    where TDetour : class => new(NotNull(target), NotNull(detour), NotNull(instance));
 
     /// <summary>
     /// Creates a new hook for an instance-based detour by resolving the target method via name and type metadata.

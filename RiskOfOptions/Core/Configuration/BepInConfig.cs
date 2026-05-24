@@ -2,6 +2,8 @@ using System;
 using BepInEx.Configuration;
 using RiskOfOptions.API.Configuration;
 
+using static RiskOfOptions.Utilities.Ensure;
+
 namespace RiskOfOptions.Core.Configuration;
 
 /// <summary>
@@ -17,10 +19,7 @@ internal class BepInConfig : Config
     /// </summary>
     /// <param name="config">The native BepInEx configuration file to wrap.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="config"/> is null.</exception>
-    internal BepInConfig(ConfigFile config)
-    {
-        Content = config ?? throw new ArgumentNullException($"{nameof(config)} cannot be null.");
-    }
+    internal BepInConfig(ConfigFile config) => Content = NotNull(config);
 
     /// <inheritdoc/>
     public Entry<T> Bind<T>(ConfigDefinition definition, T defaultValue, ConfigDescription description = null!)
